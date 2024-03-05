@@ -49,4 +49,11 @@ app.get('/api/:input', (req, res) => {
     res.json({error : "Invalid Date"});
   }
   res.json(resObj);
+});
+
+app.get('/api', (req, res) => {
+  resObj['unix'] = new Date().getTime();
+  resObj['utc'] = new Date().toUTCString();
+
+  res.json(resObj);
 })
