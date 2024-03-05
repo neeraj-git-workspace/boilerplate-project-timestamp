@@ -30,3 +30,13 @@ app.get("/api/hello", function (req, res) {
 var listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+
+let resObj = {};
+app.get('/api/:input', (req, res) => {
+  let date_string = req.params.input;
+  if(date_string.includes('-')){
+    resObj['unix']=new Date(date_string).getTime();
+  }
+  res.json(resObj);
+})
