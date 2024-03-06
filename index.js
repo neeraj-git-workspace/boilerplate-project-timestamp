@@ -45,21 +45,15 @@ app.get('/api/:date', (req, res) => {
   if(new Date(date_string).toUTCString() != 'Invalid Date'){
     resObj['unix'] = new Date(date_string).getTime();
     resObj['utc'] = new Date(date_string).toUTCString();
-    res.json({
-      unix: new Date(date_string).getTime(),
-      utc : new Date(date_string).toUTCString(),
-    });
   } else{
       date_string = parseInt(date_string)
       resObj['unix'] = new Date(date_string).getTime();
       resObj['utc'] = new Date(date_string).toUTCString();
-      res.json({
-      unix : new Date(date_string).getTime(),
-      utc : new Date(date_string).toUTCString(),
-    });
   }
-  
-  res.json({ error : 'Invalid Date'});
+  if(!resObj['unix'] || !resObj['utc']){
+    res.json({ error : 'Invalid Date'});
+  }
+  res.json(resObj);
 });
 
 app.get('/api', (req, res) => {
