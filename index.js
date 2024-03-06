@@ -47,6 +47,14 @@ app.get('/api/:date', (req, res) => {
       utc : new Date(date_string).toUTCString(),
     });
   }
+  else{
+    date_string = parseInt(date_string);
+
+    return res.json({
+      unix: new Date(date_string).getTime(),
+      utc : new Date(date_string).toUTCString(),
+    });
+  }
   res.json({ error : 'Invalid Date'});
 });
 
