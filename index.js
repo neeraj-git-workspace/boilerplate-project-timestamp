@@ -32,31 +32,27 @@ var listener = app.listen(process.env.PORT || 3000, function () {
 });
 
 
-
-let resObj = {};
 app.get('/api/:date', (req, res) => {
   let date_string = req.params.date;
   
-
-  if(date_string.includes('-')){
-    resObj['unix'] = new Date(date_string).getTime();
-    resObj['utc'] = new Date(date_string).toUTCString();
+  if(!isNaN(Number(date_string)) && date_string.length == 13){
+    return res.json({
+      unix : date_string,
+      utc : new Date(Number(date_string)).toUTCString(),
+    });
   }
-  else {
-    date_string = parseInt(date_string);
-    resObj['unix'] = new Date(date_string).getTime()
-    resObj['utc'] = new Date(date_string).toUTCString();
+  if(new Date(date_string).toUTCString() != 'Invalid Date'){
+    return res.json({
+      unix: new Date(date_string).getTime(),
+      utc : new Date(date_string).toUTCString(),
+    });
   }
-
-  if(!resObj['unix'] || !resObj['utc']) {
-    res.json({error : "Invalid Date"});
-  }
-  res.json(resObj);
+  res.json({ error : 'Invalid Date'});
 });
 
 app.get('/api', (req, res) => {
-  resObj['unix'] = new Date().getTime();
-  resObj['utc'] = new Date().toUTCString();
-
-  res.json(resObj);
-})
+  res.json({
+    unix : new Date().getTime(),
+    utc : new Date().toUTCString(),
+  });
+});
