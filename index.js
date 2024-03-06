@@ -31,15 +31,12 @@ var listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
-const isInvalidDate = (date) => date.toUTCString() === "Invalid Date";
+
 
 let resObj = {};
 app.get('/api/:date', (req, res) => {
   let date_string = req.params.date;
-
-  if(isInvalidDate(date)){
-    date = new Date(req.params.date);
-  }
+  
 
   if(date_string.includes('-')){
     resObj['unix'] = new Date(date_string).getTime();
