@@ -35,26 +35,20 @@ var listener = app.listen(process.env.PORT || 3000, function () {
 app.get('/api/:date', (req, res) => {
   let date_string = req.params.date;
   
-  if(!isNaN(Number(date_string)) && date_string.length == 13){
+  if(!isNaN(Number(date_string))){
     return res.json({
       unix : date_string,
       utc : new Date(Number(date_string)).toUTCString(),
     });
   }
+  
   if(new Date(date_string).toUTCString() != 'Invalid Date'){
     return res.json({
       unix: new Date(date_string).getTime(),
       utc : new Date(date_string).toUTCString(),
     });
   }
-  else{
-    date_string = parseInt(date_string);
-
-    return res.json({
-      unix: new Date(date_string).getTime(),
-      utc : new Date(date_string).toUTCString(),
-    });
-  }
+  
   res.json({ error : 'Invalid Date'});
 });
 
